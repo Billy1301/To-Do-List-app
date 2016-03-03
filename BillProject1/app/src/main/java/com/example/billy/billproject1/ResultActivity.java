@@ -7,12 +7,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
 
 import java.util.ArrayList;
 
@@ -66,21 +68,40 @@ public class ResultActivity extends AppCompatActivity {
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 TextView strike = (TextView) view;
 
 
-               if (!strikeThrough) {
-                   strike.setPaintFlags(strike.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                   strikeThrough = true;
-               }
-               else  {
-                   strike.setPaintFlags(strike.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                   strikeThrough = false;
-               }
-            }
-        });
+               // Log.d("ResultActivity", Integer.toString(strike.getPaintFlags()) );
 
-        //long click to remove position
+               // trial 2
+                /*int paintFlags = strike.getPaintFlags();
+                strike.setPaintFlags(paintFlags | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                if(paintFlags == 1281){
+                    strike.setPaintFlags(paintFlags | Paint.STRIKE_THRU_TEXT_FLAG);
+                    strike.setPaintFlags(757);
+                } else{
+
+                    strike.setPaintFlags(strike.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                    strike.setPaintFlags(1281);
+                }*/
+
+                // Trial 1
+//               if (!strikeThrough) {
+//                   strike.setPaintFlags(strike.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//                   strikeThrough = true;
+//               }
+//               else  {
+//                   strike.setPaintFlags(strike.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+//                   strikeThrough = false;
+//               }
+        }
+    }
+
+    );
+
+    //long click to remove position
         myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
