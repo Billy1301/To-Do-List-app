@@ -13,11 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,15 +33,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         setView();
-//        toList();
-
         activity_result = new Intent(this, ResultActivity.class);
 
-        myStringList = new ArrayList<>();
+        setAdapter();
 
-        myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myStringList);
-        myListView.setAdapter(myAdapter);
 
+        // click on position to open up the List to add listings
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -55,12 +49,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
 
 
-                Snackbar.make(view, "Bill, Create your own acton!!!", Snackbar.LENGTH_LONG) //remember to comment it out
-                        .setAction("Action", null).show();
+        //        Snackbar.make(view, " Create your own acton!!!", Snackbar.LENGTH_LONG)  //remember to comment it out
+        //                .setAction("Action", null).show();
 
 
             }
         });
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -123,25 +119,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    private void toList(){
-//
-//
-//
-//        }
-//    }
+    public void setAdapter(){
 
-////    private void setOnItemClickListener() {
-////
-////        myAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-////            @Override
-////            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-////
-////
-////                String toastString = "Clicked on item pos: " + position + " with id: " + id + "item name: " +
-////                        parent.getAdapter().getItem(position);
-////
-////                Toast.makeText(MainActivity.this, toastString, Toast.LENGTH_SHORT).show();
-////            }
-////        });
-//    }
+        myStringList = new ArrayList<>();
+
+        myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myStringList);
+        myListView.setAdapter(myAdapter);
+
+    }
+
 }

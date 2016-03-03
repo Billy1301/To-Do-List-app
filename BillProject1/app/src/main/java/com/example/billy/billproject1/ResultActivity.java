@@ -1,6 +1,7 @@
 package com.example.billy.billproject1;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,7 +23,7 @@ public class ResultActivity extends AppCompatActivity {
     EditText listingText;
     ArrayAdapter<String> myAdapter;
     ArrayList<String> myResultStringList;
-    Intent activity_result;
+    boolean strikeThrough;
 
 
     @Override
@@ -34,10 +35,10 @@ public class ResultActivity extends AppCompatActivity {
 
         setView();
         changeTitleText();
-        setIntent();
+        setAdapter();
 
 
-        
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -47,12 +48,10 @@ public class ResultActivity extends AppCompatActivity {
                 String userText = listingText.getText().toString();
 
 
-                if(userText.isEmpty())
-                {
+                if (userText.isEmpty()) {
                     Snackbar.make(view, "No data entered", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
-                }
-                else {
+                } else {
                     myResultStringList.add(userText);
                     myAdapter.notifyDataSetChanged();
                     listingText.getText().clear();
@@ -60,6 +59,28 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
+
+        // trying to do the click to strike through for finish list - use boolean to make it work
+        // set boolean back to true when you first click it to run the un-strike code for next click
+
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView strike = (TextView) view;
+
+
+               if (!strikeThrough) {
+                   strike.setPaintFlags(strike.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                   strikeThrough = true;
+               }
+               else  {
+                   strike.setPaintFlags(strike.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                   strikeThrough = false;
+               }
+            }
+        });
+
+        //long click to remove position
         myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -85,12 +106,11 @@ public class ResultActivity extends AppCompatActivity {
     }
 
 
-    private void setIntent(){
-        activity_result = new Intent(this, MainActivity.class);
+    private void setAdapter(){
 
         myResultStringList = new ArrayList<>();
 
-        myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myResultStringList);
+        myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myResultStringList); // the Layout can be custom layout.
         myListView.setAdapter(myAdapter);
 
 
