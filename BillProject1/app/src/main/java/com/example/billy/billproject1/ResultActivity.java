@@ -8,13 +8,18 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -42,13 +47,20 @@ public class ResultActivity extends AppCompatActivity {
 
 
 
+        /* trail 4 for strikethrough.. customer adapter is not linking correctly
+
+        myResultStringList = new ArrayList<>();
+        myAdapter = new CustomAdapter<String> (this, android.R.layout.simple_list_item_1, myResultStringList);
+        myListView.setAdapter(myAdapter);*/
+
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 String userText = listingText.getText().toString();
-
 
                 if (userText.isEmpty()) {
                     Snackbar.make(view, "No data entered", Snackbar.LENGTH_LONG)
@@ -62,6 +74,7 @@ public class ResultActivity extends AppCompatActivity {
         });
 
 
+
         // trying to do the click to strike through for finish list - use boolean to make it work
         // set boolean back to true when you first click it to run the un-strike code for next click
 
@@ -69,23 +82,42 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                TextView strike = (TextView) view;
-                //strikeThrough(); trial 3
+               /* trial 4 -- customer adapter view is not working correctly
+                myAdapter.getSelectedStrings().add(list[i]);
+                myAdapter.notifyDataSetChanged(); */
+
+                // trail 5!! after many hrs of research and trials, got help from the NY cohort :P
+                TextView item = (TextView) view;
+
+                if (!myListView.isItemChecked(position) &&
+                        !((item.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)) {
+                    Log.i("[TAP]", "Strikethrough");
+                    item.setPaintFlags(item.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    myListView.setItemChecked(position, true);
+                } else {
+                    Log.i("[TAP]", "Un-strike");
+                    item.setPaintFlags(item.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                    myListView.setItemChecked(position, false);
+                }
+
+                /*TextView strike = (TextView) view;
+
 
                 // Trial 1
-               if (!strikeThrough) {
+               if (strikeThrough) {
                    strike.setPaintFlags(strike.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                   strikeThrough = true;
+                   strikeThrough = false;
                }
                else  {
                    strike.setPaintFlags(strike.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                   strikeThrough = false;
+                   strikeThrough = true;
                }
-
-                // Log.d("ResultActivity", Integer.toString(strike.getPaintFlags()) );
+*/
 
                 // trial 2
-                /*int paintFlags = strike.getPaintFlags();
+                // Log.d("ResultActivity", Integer.toString(strike.getPaintFlags()) );
+
+                /* int paintFlags = strike.getPaintFlags();
                 strike.setPaintFlags(paintFlags | Paint.STRIKE_THRU_TEXT_FLAG);
 
                 if(paintFlags == 1281){
@@ -131,32 +163,27 @@ public class ResultActivity extends AppCompatActivity {
 
         myResultStringList = new ArrayList<>();
 
-        myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myResultStringList); // the Layout can be custom layout.
+        myAdapter = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_1, myResultStringList); // the Layout can be custom layout.
         myListView.setAdapter(myAdapter);
-
 
     }
 
-  /*  private void strikeThrough(View view){
 
-        //strike.setPaintFlags(strike.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
-        TextView strikeView = (TextView) view;
-        int strike = strikeView.setPaintFlags(757);
-
-        String strikeThrough = Integer.parseInt(strike.setPaintFlags());
-
-        switch (strikeThrough) {
-            case strike.setPaintFlags(757):
-                strike.setPaintFlags(757);
-                break;
-            case R.color.colorPrimaryDark:
-                currentItemColor = R.color.colorPrimary;
-                break;
-        }
-
-    }*/
+    public void setItemChecked (TextView item, int position) {
 
 
+            if (!myListView.isItemChecked(position) &&
+                    !((item.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)) {
+                Log.i("[TAP]", "Strikethrough");
+                item.setPaintFlags(item.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                myListView.setItemChecked(position, true);
+            } else {
+                Log.i("[TAP]", "Un-strike");
+                item.setPaintFlags(item.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                myListView.setItemChecked(position, false);
+            }
+
+
+    }
 
 }
