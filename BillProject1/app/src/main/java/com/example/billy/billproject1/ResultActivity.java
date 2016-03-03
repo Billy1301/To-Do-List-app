@@ -70,11 +70,21 @@ public class ResultActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 TextView strike = (TextView) view;
+                //strikeThrough(); trial 3
 
+                // Trial 1
+               if (!strikeThrough) {
+                   strike.setPaintFlags(strike.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                   strikeThrough = true;
+               }
+               else  {
+                   strike.setPaintFlags(strike.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                   strikeThrough = false;
+               }
 
-               // Log.d("ResultActivity", Integer.toString(strike.getPaintFlags()) );
+                // Log.d("ResultActivity", Integer.toString(strike.getPaintFlags()) );
 
-               // trial 2
+                // trial 2
                 /*int paintFlags = strike.getPaintFlags();
                 strike.setPaintFlags(paintFlags | Paint.STRIKE_THRU_TEXT_FLAG);
 
@@ -86,18 +96,8 @@ public class ResultActivity extends AppCompatActivity {
                     strike.setPaintFlags(strike.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                     strike.setPaintFlags(1281);
                 }*/
-
-                // Trial 1
-//               if (!strikeThrough) {
-//                   strike.setPaintFlags(strike.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-//                   strikeThrough = true;
-//               }
-//               else  {
-//                   strike.setPaintFlags(strike.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-//                   strikeThrough = false;
-//               }
+            }
         }
-    }
 
     );
 
@@ -136,5 +136,27 @@ public class ResultActivity extends AppCompatActivity {
 
 
     }
+
+  /*  private void strikeThrough(View view){
+
+        //strike.setPaintFlags(strike.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        TextView strikeView = (TextView) view;
+        int strike = strikeView.setPaintFlags(757);
+
+        String strikeThrough = Integer.parseInt(strike.setPaintFlags());
+
+        switch (strikeThrough) {
+            case strike.setPaintFlags(757):
+                strike.setPaintFlags(757);
+                break;
+            case R.color.colorPrimaryDark:
+                currentItemColor = R.color.colorPrimary;
+                break;
+        }
+
+    }*/
+
+
 
 }

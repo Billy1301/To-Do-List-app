@@ -17,11 +17,14 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Category List"
-        android:textSize="25dp"
+        android:layout_height="75dp"
+        android:text="Title of list"
+        android:textStyle="bold"
+        android:textSize="30dp"
         android:id="@+id/listingTextview"
+        android:textColor="@android:color/black"
         android:gravity="center"
+        android:background="@drawable/background"
         />
 
     <EditText
@@ -29,7 +32,9 @@
         android:layout_height="wrap_content"
         android:hint="Add List"
         android:id="@+id/listingEdit"
-        android:layout_below="@+id/listingTextview"/>
+        android:layout_below="@+id/listingTextview"
+        android:textColor="@android:color/holo_orange_dark"
+        android:gravity="center"/>
 
 
 

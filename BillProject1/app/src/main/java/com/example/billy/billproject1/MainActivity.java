@@ -30,12 +30,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Busy App"); // enter this to change the title bar name or change it at the strings.xml file
         setSupportActionBar(toolbar);
 
         setView();
-        activity_result = new Intent(this, ResultActivity.class);
-
         setAdapter();
+        activity_result = new Intent(this, ResultActivity.class);
 
 
         // click on position to open up the List to add listings
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void setAdapter(){
+    private void setAdapter(){
 
         myStringList = new ArrayList<>();
 
