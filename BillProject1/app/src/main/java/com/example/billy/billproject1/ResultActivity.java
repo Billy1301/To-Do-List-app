@@ -29,10 +29,7 @@ public class ResultActivity extends AppCompatActivity {
     ListView myListView;
     EditText listingText;
     ArrayAdapter<String> myAdapter;
-    ArrayList<String> myResultStringList;
     ArrayList<String> myCopyResultList;
-    ArrayList<ArrayList<String>> newCopyResultList;
-    int index;
 
 
     @Override
@@ -45,11 +42,9 @@ public class ResultActivity extends AppCompatActivity {
         setView();
         changeTitleText();
         myCopyResultList = getData();
-
         setAdapter();
 
-        //modifyList();
-        printList();
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -63,10 +58,9 @@ public class ResultActivity extends AppCompatActivity {
                             .setAction("Action", null).show();
                 } else {
 
-                    myResultStringList.add(userText);
+                    myCopyResultList.add(userText);
                     myAdapter.notifyDataSetChanged();
                     listingText.getText().clear();
-                    myCopyResultList.add(userText);
 
                 }
 
@@ -103,7 +97,7 @@ public class ResultActivity extends AppCompatActivity {
         myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                myResultStringList.remove(position);
+                myCopyResultList.remove(position);
                 myAdapter.notifyDataSetChanged();
 
                 return true;
@@ -127,12 +121,8 @@ public class ResultActivity extends AppCompatActivity {
 
     private void setAdapter(){
 
-        myResultStringList = new ArrayList<>();
-
-        myAdapter = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_1, myCopyResultList); // the Layout can be custom layout.
+        myAdapter = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_1, myCopyResultList);
         myListView.setAdapter(myAdapter);
-
-
 
     }
 
@@ -145,38 +135,14 @@ public class ResultActivity extends AppCompatActivity {
     }
 
 
-
-    private void printList(){
-        if (myResultStringList == null){
-            return;
-        }
-        for (String item : myResultStringList){
-            Log.d("Detail", item);
-        }
-    }
-
-
-    /*private void modifyList(){
-        if (myResultStringList == null){
-            return;
-        }
-        myCopyResultList = new ArrayList<>(myResultStringList.size());
-        for (String item : myResultStringList){
-            item += " back";
-            myCopyResultList.add(item);
-        }
-    }*/
-
-
     private void sendNewListBack(){
         Intent newNewList = getIntent();
         if (newNewList == null){
             return;
         }
-        //newNewList.putExtra(MainActivity.DATA_KEY, myCopyResultList);
         newNewList.putExtra(MainActivity.NEW_DATA_KEY, myCopyResultList);
         setResult(RESULT_OK, newNewList);
-        Log.d("Result", "is it sending back");
+        Log.d("Result", "Sending back");
         finish();
     }
 
@@ -184,24 +150,14 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         sendDataBack();
-        Log.d("ResultActivity", "pressedBackButton");
+        Log.d("ResultActivity", "Pressed Back Button");
     }
 
 
     private void sendDataBack(){
-        //modifyList();
         sendNewListBack();
-        Log.d("ResultActivity", "send data back");
+        //Log.d("ResultActivity", "send data back");
 
-    }
-
-    private int getIndex(){
-        Intent newList = getIntent();
-
-        if (newList == null) {
-            return  -1;
-        }
-        return newList.getIntExtra(MainActivity.NEW_DATA_KEY, -1);
     }
 
 }

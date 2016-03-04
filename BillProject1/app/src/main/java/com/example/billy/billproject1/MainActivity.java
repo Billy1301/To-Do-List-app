@@ -21,19 +21,15 @@ public class MainActivity extends AppCompatActivity {
     EditText enterText;
     ArrayAdapter<String> myAdapter;
     ArrayList<String> myDataList;
-    //Intent activity_result;
+    ArrayList<String> dummyList;
 
     private static int currentPosition;
-
     private ArrayList<ArrayList<String>> myMasterDataList;
 
     private static final int MAIN_REQUEST_CODE = 30;
-    // data key to retrieve data from intent. Public so we can retrieve data in DetailActivity
     public static final String DATA_KEY = "myDataKey";
     public static final String NEW_DATA_KEY = "myNewDataKey";
-    public static final int ERROR_INDEX = -1;
 
-    ArrayList<String> dummyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +42,11 @@ public class MainActivity extends AppCompatActivity {
         setView();
         setAdapter();
 
-
-        //activity_result = new Intent(this, ResultActivity.class);
         dummyList = new ArrayList<>();
         myMasterDataList = new ArrayList<>();
 
 
-        // click on position to open up the List to add listings
+        // click on position to open up the List to add to do list
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -62,9 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
                 String newTitle = (String) parent.getAdapter().getItem(position);
                 intent.putExtra("Title", newTitle);
-                // startActivity(intent);
-
-                intent.putExtra(DATA_KEY, newTitle); // for my title
+                intent.putExtra(DATA_KEY, newTitle); // this part is for my title bar name
 
                 intent.putExtra(NEW_DATA_KEY, myMasterDataList.get(position));
                 startActivityForResult(intent, MAIN_REQUEST_CODE);
@@ -104,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 myDataList.remove(position);
+                myMasterDataList.remove(position);
                 myAdapter.notifyDataSetChanged();
 
                 return true;
