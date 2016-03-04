@@ -31,6 +31,8 @@ public class ResultActivity extends AppCompatActivity {
     ArrayAdapter<String> myAdapter;
     ArrayList<String> myResultStringList;
     ArrayList<String> myCopyResultList;
+    ArrayList<ArrayList<String>> newCopyResultList;
+    int index;
 
 
     @Override
@@ -42,17 +44,12 @@ public class ResultActivity extends AppCompatActivity {
 
         setView();
         changeTitleText();
+        myCopyResultList = getData();
+
         setAdapter();
 
-
-        /*
-        trail 4 for strikethrough.. customer adapter is not linking correctly
-        myResultStringList = new ArrayList<>();
-        myAdapter = new CustomAdapter<String> (this, android.R.layout.simple_list_item_1, myResultStringList);
-        myListView.setAdapter(myAdapter);
-        */
-
-
+        //modifyList();
+        printList();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,25 +66,18 @@ public class ResultActivity extends AppCompatActivity {
                     myResultStringList.add(userText);
                     myAdapter.notifyDataSetChanged();
                     listingText.getText().clear();
+                    myCopyResultList.add(userText);
 
                 }
 
             }
         });
 
-        // myCopyResultList = getData();
-
-
-
 
         // click once to strike through, click again to un-strike.
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-               /* trial 4 -- customer adapter view is not working correctly
-                myAdapter.getSelectedStrings().add(list[i]);
-                myAdapter.notifyDataSetChanged(); */
 
                 // trail 5!! after many hrs of research and trials, got help from the NY cohort :P
                 TextView userStrikeThrough = (TextView) view;
@@ -109,7 +99,7 @@ public class ResultActivity extends AppCompatActivity {
         }
     );
 
-    //long click to remove position
+                //long click to remove position
         myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -139,8 +129,10 @@ public class ResultActivity extends AppCompatActivity {
 
         myResultStringList = new ArrayList<>();
 
-        myAdapter = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_1, myResultStringList); // the Layout can be custom layout.
+        myAdapter = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_1, myCopyResultList); // the Layout can be custom layout.
         myListView.setAdapter(myAdapter);
+
+
 
     }
 
@@ -149,8 +141,10 @@ public class ResultActivity extends AppCompatActivity {
         if (newList == null){
             return null;
         }
-        return newList.getStringArrayListExtra(MainActivity.DATA_KEY);
+        return newList.getStringArrayListExtra(MainActivity.NEW_DATA_KEY);
     }
+
+
 
     private void printList(){
         if (myResultStringList == null){
@@ -162,7 +156,7 @@ public class ResultActivity extends AppCompatActivity {
     }
 
 
-    private void modifyList(){
+    /*private void modifyList(){
         if (myResultStringList == null){
             return;
         }
@@ -171,7 +165,7 @@ public class ResultActivity extends AppCompatActivity {
             item += " back";
             myCopyResultList.add(item);
         }
-    }
+    }*/
 
 
     private void sendNewListBack(){
@@ -179,8 +173,10 @@ public class ResultActivity extends AppCompatActivity {
         if (newNewList == null){
             return;
         }
-        newNewList.putExtra(MainActivity.DATA_KEY, myCopyResultList);
+        //newNewList.putExtra(MainActivity.DATA_KEY, myCopyResultList);
+        newNewList.putExtra(MainActivity.NEW_DATA_KEY, myCopyResultList);
         setResult(RESULT_OK, newNewList);
+        Log.d("Result", "is it sending back");
         finish();
     }
 
@@ -188,14 +184,24 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         sendDataBack();
+        Log.d("ResultActivity", "pressedBackButton");
     }
 
 
     private void sendDataBack(){
-
-        modifyList();
+        //modifyList();
         sendNewListBack();
+        Log.d("ResultActivity", "send data back");
 
+    }
+
+    private int getIndex(){
+        Intent newList = getIntent();
+
+        if (newList == null) {
+            return  -1;
+        }
+        return newList.getIntExtra(MainActivity.NEW_DATA_KEY, -1);
     }
 
 }
