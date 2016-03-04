@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("Title", newTitle);
                 startActivity(intent);
 
+//                intent.putExtra(DATA_KEY, myStringList);
+//                startActivityForResult(intent, MAIN_REQUEST_CODE);
+
 
             }
         });
@@ -112,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-   /* @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MAIN_REQUEST_CODE){
             if (resultCode == RESULT_OK){
@@ -133,6 +136,6 @@ public class MainActivity extends AppCompatActivity {
         for (String item : myStringList){
             Log.d("Main", item);
         }
-    }*/
+    }
 
 }

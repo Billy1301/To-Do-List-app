@@ -75,6 +75,8 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
+        // myCopyResultList = getData();
+
 
 
 
@@ -142,7 +144,7 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
-   /* private ArrayList<String> getData(){
+    private ArrayList<String> getData(){
         Intent newList = getIntent();
         if (newList == null){
             return null;
@@ -185,7 +187,6 @@ public class ResultActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        myCopyResultList = getData();
         sendDataBack();
     }
 
@@ -196,6 +197,5 @@ public class ResultActivity extends AppCompatActivity {
         sendNewListBack();
 
     }
-*/
 
 }

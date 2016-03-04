@@ -3,9 +3,18 @@ Create a new to do list, review old list, add into list
 
 This App is to create a list of things to do.
 
-The main page will consist the create a new list button to enter Categories. 
+The main page will consist the Categories list.
+    - Enter the name and press the add button
 
--once it is created, you click on the name to open a new activity to enter what you need to do within the Category.
+Press the name to open the next list activity to enter your to do lists for the Category
+    - Enter data and press add
+    - Click on item to strikethrough for done, click again to undo strike
+    - Long click to delete an item from the list
+
+
+
+
+
 
 
 
