@@ -126,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
                 if (data != null) {
                         dummyList = data.getStringArrayListExtra(NEW_DATA_KEY);
                         myMasterDataList.set(currentPosition, dummyList);
-                    Log.d("Main", "back in main" + dummyList.get(0));
-                    Log.d("Main", "is it on master" + myMasterDataList.get(currentPosition).get(0));
+                    //Log.d("Main", "back in main" + dummyList.get(0));
+                    //Log.d("Main", "is it on master" + myMasterDataList.get(currentPosition).get(0));
                 }
             } else  if (requestCode == RESULT_CANCELED){
                 Log.w("Main", "Failed to get new list back");

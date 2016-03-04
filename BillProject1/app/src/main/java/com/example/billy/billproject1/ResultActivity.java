@@ -142,7 +142,7 @@ public class ResultActivity extends AppCompatActivity {
         }
         newNewList.putExtra(MainActivity.NEW_DATA_KEY, myCopyResultList);
         setResult(RESULT_OK, newNewList);
-        Log.d("Result", "Sending back");
+        //Log.d("Result", "Sending back");
         finish();
     }
 
@@ -150,7 +150,7 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         sendDataBack();
-        Log.d("ResultActivity", "Pressed Back Button");
+        //Log.d("ResultActivity", "Pressed Back Button");
     }
 
 
