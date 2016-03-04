@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,37 +25,45 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> myStringList;
     Intent activity_result;
 
+    ArrayList<String> newMyStringList;
+
+    private static final int MAIN_REQUEST_CODE = 30;
+    // data key to retrieve data from intent. Public so we can retrieve data in DetailActivity
+    public static final String DATA_KEY = "myDataKey";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Busy App"); // enter this to change the title bar name or change it at the strings.xml file
+        toolbar.setTitle("Busy App");  // enter this to change the title bar name or change it at the strings.xml file
         setSupportActionBar(toolbar);
 
         setView();
         setAdapter();
+
+
         activity_result = new Intent(this, ResultActivity.class);
+
+
 
 
         // click on position to open up the List to add listings
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, ResultActivity.class);
 
-                String newTitle = (String)parent.getAdapter().getItem(position);
+                Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+                String newTitle = (String) parent.getAdapter().getItem(position);
                 intent.putExtra("Title", newTitle);
                 startActivity(intent);
 
 
-        //        Snackbar.make(view, " Create your own acton!!!", Snackbar.LENGTH_LONG)  //remember to comment it out
-        //                .setAction("Action", null).show();
-
-
             }
         });
+
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -90,29 +99,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void setView(){
         enterText = (EditText) findViewById(R.id.enterText1);
         myListView = (ListView) findViewById(R.id.listView1);
@@ -120,12 +106,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setAdapter(){
-
         myStringList = new ArrayList<>();
-
         myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myStringList);
         myListView.setAdapter(myAdapter);
 
     }
+
+   /* @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MAIN_REQUEST_CODE){
+            if (resultCode == RESULT_OK){
+                if (data != null) {
+                    myStringList = data.getStringArrayListExtra(DATA_KEY);
+                    printData();
+                }
+            } else  if (requestCode == RESULT_CANCELED){
+                Log.w("Main", "Failed to get new list back");
+            }
+        }
+    }
+
+    private void printData(){
+        if (myStringList == null){
+            return;
+        }
+        for (String item : myStringList){
+            Log.d("Main", item);
+        }
+    }*/
 
 }

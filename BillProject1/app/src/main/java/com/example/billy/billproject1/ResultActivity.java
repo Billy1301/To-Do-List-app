@@ -30,7 +30,7 @@ public class ResultActivity extends AppCompatActivity {
     EditText listingText;
     ArrayAdapter<String> myAdapter;
     ArrayList<String> myResultStringList;
-    boolean strikeThrough;
+    ArrayList<String> myCopyResultList;
 
 
     @Override
@@ -45,13 +45,12 @@ public class ResultActivity extends AppCompatActivity {
         setAdapter();
 
 
-
-
-        /* trail 4 for strikethrough.. customer adapter is not linking correctly
-
+        /*
+        trail 4 for strikethrough.. customer adapter is not linking correctly
         myResultStringList = new ArrayList<>();
         myAdapter = new CustomAdapter<String> (this, android.R.layout.simple_list_item_1, myResultStringList);
-        myListView.setAdapter(myAdapter);*/
+        myListView.setAdapter(myAdapter);
+        */
 
 
 
@@ -66,18 +65,20 @@ public class ResultActivity extends AppCompatActivity {
                     Snackbar.make(view, "No data entered", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 } else {
+
                     myResultStringList.add(userText);
                     myAdapter.notifyDataSetChanged();
                     listingText.getText().clear();
+
                 }
+
             }
         });
 
 
 
-        // trying to do the click to strike through for finish list - use boolean to make it work
-        // set boolean back to true when you first click it to run the un-strike code for next click
 
+        // click once to strike through, click again to un-strike.
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -87,50 +88,23 @@ public class ResultActivity extends AppCompatActivity {
                 myAdapter.notifyDataSetChanged(); */
 
                 // trail 5!! after many hrs of research and trials, got help from the NY cohort :P
-                TextView item = (TextView) view;
+                TextView userStrikeThrough = (TextView) view;
 
                 if (!myListView.isItemChecked(position) &&
-                        !((item.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)) {
+                        !((userStrikeThrough.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)) {
+
                     Log.i("[TAP]", "Strikethrough");
-                    item.setPaintFlags(item.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    userStrikeThrough.setPaintFlags(userStrikeThrough.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     myListView.setItemChecked(position, true);
-                } else {
+                }
+                else {
+
                     Log.i("[TAP]", "Un-strike");
-                    item.setPaintFlags(item.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                    userStrikeThrough.setPaintFlags(userStrikeThrough.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                     myListView.setItemChecked(position, false);
                 }
-
-                /*TextView strike = (TextView) view;
-
-
-                // Trial 1
-               if (strikeThrough) {
-                   strike.setPaintFlags(strike.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                   strikeThrough = false;
-               }
-               else  {
-                   strike.setPaintFlags(strike.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                   strikeThrough = true;
-               }
-*/
-
-                // trial 2
-                // Log.d("ResultActivity", Integer.toString(strike.getPaintFlags()) );
-
-                /* int paintFlags = strike.getPaintFlags();
-                strike.setPaintFlags(paintFlags | Paint.STRIKE_THRU_TEXT_FLAG);
-
-                if(paintFlags == 1281){
-                    strike.setPaintFlags(paintFlags | Paint.STRIKE_THRU_TEXT_FLAG);
-                    strike.setPaintFlags(757);
-                } else{
-
-                    strike.setPaintFlags(strike.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                    strike.setPaintFlags(1281);
-                }*/
             }
         }
-
     );
 
     //long click to remove position
@@ -168,22 +142,60 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
+   /* private ArrayList<String> getData(){
+        Intent newList = getIntent();
+        if (newList == null){
+            return null;
+        }
+        return newList.getStringArrayListExtra(MainActivity.DATA_KEY);
+    }
 
-    public void setItemChecked (TextView item, int position) {
+    private void printList(){
+        if (myResultStringList == null){
+            return;
+        }
+        for (String item : myResultStringList){
+            Log.d("Detail", item);
+        }
+    }
 
 
-            if (!myListView.isItemChecked(position) &&
-                    !((item.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)) {
-                Log.i("[TAP]", "Strikethrough");
-                item.setPaintFlags(item.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                myListView.setItemChecked(position, true);
-            } else {
-                Log.i("[TAP]", "Un-strike");
-                item.setPaintFlags(item.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                myListView.setItemChecked(position, false);
-            }
+    private void modifyList(){
+        if (myResultStringList == null){
+            return;
+        }
+        myCopyResultList = new ArrayList<>(myResultStringList.size());
+        for (String item : myResultStringList){
+            item += " back";
+            myCopyResultList.add(item);
+        }
+    }
 
+
+    private void sendNewListBack(){
+        Intent newNewList = getIntent();
+        if (newNewList == null){
+            return;
+        }
+        newNewList.putExtra(MainActivity.DATA_KEY, myCopyResultList);
+        setResult(RESULT_OK, newNewList);
+        finish();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        myCopyResultList = getData();
+        sendDataBack();
+    }
+
+
+    private void sendDataBack(){
+
+        modifyList();
+        sendNewListBack();
 
     }
+*/
 
 }
