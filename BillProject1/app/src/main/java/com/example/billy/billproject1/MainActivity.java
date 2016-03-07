@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static int currentPosition;
     private ArrayList<ArrayList<String>> myMasterDataList;
-
     private static final int MAIN_REQUEST_CODE = 30;
     public static final String DATA_KEY = "myDataKey";
     public static final String NEW_DATA_KEY = "myNewDataKey";
@@ -98,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
                 myDataList.remove(position);
                 myMasterDataList.remove(position);
                 myAdapter.notifyDataSetChanged();
+
+                Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
                 return true;
             }

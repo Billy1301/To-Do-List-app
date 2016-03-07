@@ -99,6 +99,7 @@ public class ResultActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 myCopyResultList.remove(position);
                 myAdapter.notifyDataSetChanged();
+                Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
                 return true;
             }
