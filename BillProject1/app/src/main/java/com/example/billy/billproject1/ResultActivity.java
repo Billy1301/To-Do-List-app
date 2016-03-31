@@ -3,6 +3,7 @@ package com.example.billy.billproject1;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -43,9 +44,15 @@ public class ResultActivity extends AppCompatActivity {
         changeTitleText();
         myCopyResultList = getData();
         setAdapter();
+        floatButtton();
+        onItemClick();
+        onLongClick();
+
+    }
 
 
-
+    public void floatButtton() {
+        // add to list
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +60,7 @@ public class ResultActivity extends AppCompatActivity {
 
                 String userText = listingText.getText().toString();
 
+                // if nothing entered, a warning will popup
                 if (userText.isEmpty()) {
                     Snackbar.make(view, "No data entered", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
@@ -66,33 +74,35 @@ public class ResultActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+        public void onItemClick() {
 
-        // click once to strike through, click again to un-strike.
-        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // click once to strike through, click again to un-strike.
+            myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // trail 5!! after many hrs of research and trials, got help from the NY cohort :P
-                TextView userStrikeThrough = (TextView) view;
+                    // trail 5!! after many hrs of research and trials, got help from the NY cohort :P
+                    TextView userStrikeThrough = (TextView) view;
 
-                if (!myListView.isItemChecked(position) &&
-                        !((userStrikeThrough.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)) {
+                    if (!myListView.isItemChecked(position) &&
+                            !((userStrikeThrough.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0)) {
 
-                    Log.i("[TAP]", "Strikethrough");
-                    userStrikeThrough.setPaintFlags(userStrikeThrough.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                    myListView.setItemChecked(position, true);
+                        Log.i("[TAP]", "Strikethrough");
+                        userStrikeThrough.setPaintFlags(userStrikeThrough.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                        myListView.setItemChecked(position, true);
+                    } else {
+
+                        Log.i("[TAP]", "Un-strike");
+                        userStrikeThrough.setPaintFlags(userStrikeThrough.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                        myListView.setItemChecked(position, false);
+                    }
                 }
-                else {
-
-                    Log.i("[TAP]", "Un-strike");
-                    userStrikeThrough.setPaintFlags(userStrikeThrough.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                    myListView.setItemChecked(position, false);
-                }
-            }
+            });
         }
-    );
 
+    public void onLongClick(){
                 //long click to remove position
         myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -128,37 +138,31 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private ArrayList<String> getData(){
-        Intent newList = getIntent();
-        if (newList == null){
+        Intent receivingIntent = getIntent();
+        if (receivingIntent == null){
             return null;
         }
-        return newList.getStringArrayListExtra(MainActivity.NEW_DATA_KEY);
+        return receivingIntent.getStringArrayListExtra(MainActivity.NEW_DATA_KEY);
     }
 
 
     private void sendNewListBack(){
-        Intent newNewList = getIntent();
-        if (newNewList == null){
+        Intent sendingIntentBack = getIntent();
+        if (sendingIntentBack == null){
             return;
         }
-        newNewList.putExtra(MainActivity.NEW_DATA_KEY, myCopyResultList);
-        setResult(RESULT_OK, newNewList);
-        //Log.d("Result", "Sending back");
+        sendingIntentBack.putExtra(MainActivity.NEW_DATA_KEY, myCopyResultList);
+        Log.d("Result", "Sending back");
         finish();
     }
 
 
     @Override
     public void onBackPressed() {
-        sendDataBack();
-        //Log.d("ResultActivity", "Pressed Back Button");
-    }
-
-
-    private void sendDataBack(){
         sendNewListBack();
-        //Log.d("ResultActivity", "send data back");
-
+        Log.d("ResultActivity", "Pressed Back Button");
     }
+
+
 
 }
